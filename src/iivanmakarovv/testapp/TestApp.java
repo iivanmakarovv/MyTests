@@ -4,64 +4,44 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TestApp {
     private static double getMultiplyOrSum(String line) {
         String[] elements = line.split(" ");
-        ArrayList<Double> list = new ArrayList<>();
-
-        for (int i = 1; i < elements.length; ++i) {
-            list.add(Double.parseDouble(elements[i]));
-        }
+        int firstElementIndex = 1;
 
         switch (elements[0]) {
             case "mul":
-                return getMultiply(list);
+                return getMultiply(elements, firstElementIndex, elements.length - 1);
             case "sum":
-                return getSum(list);
+                return getSum(elements, firstElementIndex, elements.length - 1);
             case "mulsum":
-                return getMultiplyAndSum(list);
+                return getMultiply(elements, firstElementIndex, 2)
+                        + getSum(elements, 3, elements.length - 1);
             default:
                 throw new IllegalArgumentException("Некорректно указаны аргументы программы");
         }
     }
 
-    private static double getMultiply(ArrayList<Double> list) {
+    private static double getMultiply(String[] elements, int firstElementIndex, int lastElementIndex) {
         double mul = 1;
 
-        for (Double i : list) {
-            mul *= i;
+        for (int i = firstElementIndex; i <= lastElementIndex; ++i) {
+            mul *= Double.parseDouble(elements[i]);
         }
 
         return mul;
     }
 
-    private static double getSum(ArrayList<Double> list) {
+    private static double getSum(String[] elements, int firstElementIndex, int lastElementIndex) {
         double sum = 0;
 
-        for (Double i : list) {
-            sum += i;
+        for (int i = firstElementIndex; i <= lastElementIndex; ++i) {
+            sum += Double.parseDouble(elements[i]);
         }
 
         return sum;
-    }
-
-    private static double getMultiplyAndSum(ArrayList<Double> list) {
-        double mulsum = 1;
-        int i = 0;
-
-        for (Double e : list) {
-            if (i < 2) {
-                mulsum *= e;
-            } else {
-                mulsum += e;
-            }
-            ++i;
-        }
-
-        return mulsum;
     }
 
     public static void main(String[] args) throws FileNotFoundException {
