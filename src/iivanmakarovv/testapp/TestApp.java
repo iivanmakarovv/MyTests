@@ -13,18 +13,18 @@ public class TestApp {
 
         switch (elements[0]) {
             case "mul":
-                return getMultiply(elements, firstElementIndex, elements.length - 1);
-            case "sum":
-                return getSum(elements, firstElementIndex, elements.length - 1);
-            case "mulsum":
-                return getMultiply(elements, firstElementIndex, 2)
-                        + getSum(elements, 3, elements.length - 1);
+                return getMultiplication(elements, firstElementIndex, elements.length - 1);
+            case "add":
+                return getAddition(elements, firstElementIndex, elements.length - 1);
+            case "muladd":
+                return getMultiplication(elements, firstElementIndex, 2)
+                        + getAddition(elements, 3, elements.length - 1);
             default:
                 throw new IllegalArgumentException("Некорректно указаны аргументы программы");
         }
     }
 
-    private static double getMultiply(String[] elements, int firstElementIndex, int lastElementIndex) {
+    private static double getMultiplication(String[] elements, int firstElementIndex, int lastElementIndex) {
         double mul = 1;
 
         for (int i = firstElementIndex; i <= lastElementIndex; ++i) {
@@ -34,14 +34,14 @@ public class TestApp {
         return mul;
     }
 
-    private static double getSum(String[] elements, int firstElementIndex, int lastElementIndex) {
-        double sum = 0;
+    private static double getAddition(String[] elements, int firstElementIndex, int lastElementIndex) {
+        double add = 0;
 
         for (int i = firstElementIndex; i <= lastElementIndex; ++i) {
-            sum += Double.parseDouble(elements[i]);
+            add += Double.parseDouble(elements[i]);
         }
 
-        return sum;
+        return add;
     }
 
     public static void main(String[] args) throws FileNotFoundException {
