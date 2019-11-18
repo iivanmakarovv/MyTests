@@ -7,38 +7,46 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class TestApp {
-    private static double getMultiplyOrSum(String line) {
+    private static double getMultiplicationOrAddition(String line) {
         String[] elements = line.split(" ");
-        int firstElementIndex = 1;
+        int firstNumberIndex = 1;
 
         switch (elements[0]) {
             case "mul":
-                return getMultiplication(elements, firstElementIndex, elements.length - 1);
+                return getMultiplication(elements, firstNumberIndex, elements.length - 1);
             case "add":
-                return getAddition(elements, firstElementIndex, elements.length - 1);
+                return getAddition(elements, firstNumberIndex, elements.length - 1);
             case "muladd":
-                return getMultiplication(elements, firstElementIndex, 2)
+                return getMultiplication(elements, firstNumberIndex, 2)
                         + getAddition(elements, 3, elements.length - 1);
             default:
-                throw new IllegalArgumentException("Некорректно указаны аргументы программы");
+                throw new IllegalArgumentException("Некорректно указано название операции");
         }
     }
 
-    private static double getMultiplication(String[] elements, int firstElementIndex, int lastElementIndex) {
+    private static double getMultiplication(String[] elements, int firstNumberIndex, int lastNumberIndex) {
         double mul = 1;
 
-        for (int i = firstElementIndex; i <= lastElementIndex; ++i) {
-            mul *= Double.parseDouble(elements[i]);
+        for (int i = firstNumberIndex; i <= lastNumberIndex; ++i) {
+            try {
+                mul *= Double.parseDouble(elements[i]);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Некорректно указаны числа");
+            }
         }
 
         return mul;
     }
 
-    private static double getAddition(String[] elements, int firstElementIndex, int lastElementIndex) {
+    private static double getAddition(String[] elements, int firstNumberIndex, int lastNumberIndex) {
         double add = 0;
 
-        for (int i = firstElementIndex; i <= lastElementIndex; ++i) {
-            add += Double.parseDouble(elements[i]);
+        for (int i = firstNumberIndex; i <= lastNumberIndex; ++i) {
+            try {
+                add += Double.parseDouble(elements[i]);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Некорректно указаны числа");
+            }
         }
 
         return add;
@@ -50,7 +58,7 @@ public class TestApp {
             System.out.println("Введите название операции и числа");
 
             String line = scanner.nextLine();
-            System.out.println(getMultiplyOrSum(line));
+            System.out.println(getMultiplicationOrAddition(line));
         } else if (args[0].equals("input.txt") && args[1].equals("output.txt")) {
             File input = new File(args[0]);
 
@@ -58,7 +66,7 @@ public class TestApp {
                  Scanner scanner = new Scanner(new FileInputStream(input))) {
 
                 String line = scanner.nextLine();
-                writer.println(getMultiplyOrSum(line));
+                writer.println(getMultiplicationOrAddition(line));
             }
         } else {
             throw new IllegalArgumentException("Некорректно указаны аргументы программы");
